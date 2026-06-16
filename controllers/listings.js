@@ -102,7 +102,6 @@ module.exports.destroyListing = async (req, res) => {
   req.flash("sucess", "Listing Was Deleted");
   res.redirect("/listing");
 };
-
 module.exports.searchListing = async (req, res) => {
   let { q } = req.query;
 
@@ -114,14 +113,12 @@ module.exports.searchListing = async (req, res) => {
           $options: "i",
         },
       },
-
       {
         location: {
           $regex: q,
           $options: "i",
         },
       },
-
       {
         title: {
           $regex: q,
@@ -131,7 +128,7 @@ module.exports.searchListing = async (req, res) => {
     ],
   };
 
-  // price search
+  // Price search
   if (!isNaN(q)) {
     filter = {
       price: {
@@ -141,6 +138,12 @@ module.exports.searchListing = async (req, res) => {
   }
 
   let allistings = await Listing.find(filter);
+
+  // If no result found
+  if (allistings.length === 0) {
+    req.flash("error", "Result Not Found!");
+    return res.redirect("/listing");
+  }
 
   res.render("listing/index.ejs", { allistings });
 };
