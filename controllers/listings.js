@@ -35,13 +35,14 @@ module.exports.showListing = async (req, res) => {
 
 //creating new
 module.exports.creatListing = async (req, res, next) => {
-  let response=await geocodingClient.forwardGeocode({
+  let response = await geocodingClient
+    .forwardGeocode({
       query: req.body.listing.location,
       limit: 1,
     })
     .send();
-//   console.log(response.body.features[0].geometry);
-//   res.send('done!')
+  //   console.log(response.body.features[0].geometry);
+  //   res.send('done!')
   let url = req.file.path;
   let filename = req.file.filename;
   // console.log(url,'\n',filename)
@@ -53,8 +54,8 @@ module.exports.creatListing = async (req, res, next) => {
   newListing.image = { url, filename };
   // console.log(req.user);
   newListing.owner = req.user._id;
-  newListing.geometry=response.body.features[0].geometry;
-  let savedListing=await newListing.save();
+  newListing.geometry = response.body.features[0].geometry;
+  let savedListing = await newListing.save();
   console.log(savedListing);
   req.flash("sucess", "New Listing Created");
   res.redirect("/listing");
@@ -92,7 +93,6 @@ module.exports.updateListing = async (req, res) => {
   res.redirect(`/listing/${id}`);
 };
 
-
 //deleting
 module.exports.destroyListing = async (req, res) => {
   let { id } = req.params;
@@ -100,4 +100,46 @@ module.exports.destroyListing = async (req, res) => {
   // console.log(c);
   req.flash("sucess", "Listing Was Deleted");
   res.redirect("/listing");
+};
+
+module.exports.searchListing = async (req, res) => {
+  let { q } = req.query;
+
+  let filter = {
+    $or: [
+      {
+        country: {
+          $regex: q,
+          $options: "i",
+        },
+      },
+
+      {
+        location: {
+          $regex: q,
+          $options: "i",
+        },
+      },
+
+      {
+        title: {
+          $regex: q,
+          $options: "i",
+        },
+      },
+    ],
+  };
+
+  // price search
+  if (!isNaN(q)) {
+    filter = {
+      price: {
+        $lte: Number(q),
+      },
+    };
+  }
+
+  let allistings = await Listing.find(filter);
+
+  res.render("listing/index.ejs", { allistings });
 };

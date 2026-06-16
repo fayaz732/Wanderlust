@@ -23,6 +23,8 @@ const upload=multer({storage})
 //New Route
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
+router.get("/search", wrapAsync(listingController.searchListing));
+
 router
   .route("/")
   .get(wrapAsync(listingController.index))
@@ -30,7 +32,7 @@ router
   // .post(upload.single('listing[image]'),(req,res)=>{
   //   res.send(req.file)
   // })
-
+  
 router
   .route("/:id")
   .get(wrapAsync(listingController.showListing))

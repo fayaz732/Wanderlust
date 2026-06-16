@@ -28,6 +28,21 @@ const listingSchema = mongoose.Schema({
     required: true,
     default: 5000,
   },
+  category: {
+    type: String,
+    enum: [
+      "Trending",
+      "Rooms",
+      "Iconic City",
+      "Mountains",
+      "Castles",
+      "Arctic",
+      "Camping",
+      "Farms",
+      "Domes",
+      "Boats",
+    ],
+  },
   location: String,
   country: String,
   review: [
@@ -40,17 +55,17 @@ const listingSchema = mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  geometry:{
-    type:{
-      type:String,
-      enum:['Point'],
-      required:true,
+  geometry: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: true,
     },
-    coordinates:{
-      type:[Number],
-      required:true
-    }
-  }
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
 });
 
 listingSchema.post("findOneAndDelete", async (listing) => {
