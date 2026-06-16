@@ -138,6 +138,10 @@ app.use((req, res, next) => {
 //   // res.send(registeruser)
 //    res.json(registeruser);
 // });
+app.get("/", (req, res) => {
+  res.redirect("/listing");
+});
+
 
 const listingRouter = require("./routes/listing.js");
 app.use("/listing", listingRouter);
