@@ -1,28 +1,67 @@
 <style>
-  .search-btn{
-    background-color:#fe424d ;
-    color: #fff;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
+  .navbar {
+    height: 5rem;
+    background-color: white;
   }
-   .search-btn:hover{
-    background-color:#fe424d ;
-    color: #fff;
+
+  .fa-compass {
+    color: #fe424d;
+    font-size: 2rem;
   }
-  .search-btn i{
-    display: inline;
-    margin-right:0.5rem ;
+
+  .nav-link {
+    color: #222222 !important;
   }
-  .search.inp{
-    border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem  ;
+
+  /* Search Bar */
+  .search-inp {
+    width: 380px; /* Increased width */
+    border-radius: 30px;
+    padding: 0.7rem 1.5rem;
+    border: 1px solid #ddd;
+    box-shadow: none;
+  }
+
+  .search-inp:focus {
+    border-color: #fe424d;
+    box-shadow: 0 0 8px rgba(254, 66, 77, 0.3);
+  }
+
+  /* Search Button */
+  .search-btn {
+    background: linear-gradient(135deg, #fe424d, #ff5a5f);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 0.7rem 1.8rem;
+    font-weight: 600;
+    min-width: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .search-btn:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(254, 66, 77, 0.4);
+  }
+
+  .search-btn i {
+    margin-right: 0.5rem;
   }
 </style>
+
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listing"
-      ><i class="fa-regular fa-compass"></i
-    ></a>
+    
+    <!-- Logo -->
+    <a class="navbar-brand" href="/listing">
+      <i class="fa-regular fa-compass"></i>
+    </a>
+
+    <!-- Mobile Toggle -->
     <button
       class="navbar-toggler"
       type="button"
@@ -31,41 +70,82 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      
+      <!-- Explore -->
       <div class="navbar-nav">
         <a class="nav-link" href="/listing">Explore</a>
       </div>
 
-
-      <!--search -->
+      <!-- Search -->
       <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search" action="/listing/search" method="GET">
-          <input 
-          class="form-control me-2 search-inp"
-          type="search"
-          name="q"
-          placeholder="Search country, city, price, rating..."
+        <form
+          class="d-flex align-items-center"
+          role="search"
+          action="/listing/search"
+          method="GET"
+          onsubmit="return validateSearch()"
+        >
+          <input
+            class="form-control me-2 search-inp"
+            type="search"
+            id="searchInput"
+            name="q"
+            placeholder="Search country, city, price, rating..."
           />
-          <button class="btn search-btn" type="submit" style="display: flex;">
+
+          <button class="btn search-btn" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>
             Search
           </button>
         </form>
       </div>
 
-      <!-- signup and login -->
+      <!-- Signup/Login -->
       <div class="navbar-nav ms-auto">
-        <!-- if user  not exist then signup and login  -->
-        <a class="nav-link" href="/listing/new">Airbnb your home</a>
+        <a class="nav-link" href="/listing/new">
+          Airbnb your home
+        </a>
+
         <% if(!currUser){ %>
-        <a class="nav-link" href="/signup"><b>Sign up</b></a>
-        <a class="nav-link" href="/login"><b>Log in</b></a>
+          <a class="nav-link" href="/signup">
+            <b>Sign up</b>
+          </a>
+
+          <a class="nav-link" href="/login">
+            <b>Log in</b>
+          </a>
         <% } %>
-        <!-- if user exist then only user can logout -->
+
         <% if(currUser){ %>
-        <a class="nav-link" href="/logout"><b>Log out</b></a>
+          <a class="nav-link" href="/logout">
+            <b>Log out</b>
+          </a>
         <% } %>
       </div>
+
     </div>
   </div>
 </nav>
+
+<!-- Search Validation -->
+<script>
+  function validateSearch() {
+    let input = document.getElementById("searchInput").value.trim();
+
+    // Empty search
+    if (input === "") {
+      window.location.href = "/listing";
+      return false;
+    }
+
+    // Minimum 2 characters required
+    if (input.length < 2) {
+      alert("Please enter at least 2 characters.");
+      return false;
+    }
+
+    return true;
+  }
+</script>
