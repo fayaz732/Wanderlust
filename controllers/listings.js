@@ -130,7 +130,7 @@ module.exports.searchListing = async (req, res) => {
       },
       {
         title: {
-          $regex: `^${q}$`,
+          $regex: q,
           $options: "i",
         },
       },
