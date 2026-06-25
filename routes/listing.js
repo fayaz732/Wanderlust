@@ -32,6 +32,10 @@ router
   // .post(upload.single('listing[image]'),(req,res)=>{
   //   res.send(req.file)
   // })
+  router.get(
+  "/category/:category",
+  wrapAsync(listingController.filterByCategory)
+);
   
 router
   .route("/:id")
@@ -52,5 +56,6 @@ router.get(
   isOwner,
   wrapAsync(listingController.renderEditForm)
 );
+
 
 module.exports = router;

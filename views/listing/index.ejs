@@ -30,64 +30,101 @@
     display: flex;
     align-items: center;
   }
+  .filter-link {
+  text-decoration: none;
+  color: inherit;
+}
 </style>
 <body>
   <!-- <h1>All Listings</h1> -->
-  <div id="filters">
+  
+    <div id="filters">
+
+  <a href="/listing/category/Trending" class="filter-link">
     <div class="filter">
       <div><i class="fa-solid fa-fire"></i></div>
       <p>Trending</p>
     </div>
+  </a>
+
+  <a href="/listing/category/Rooms" class="filter-link">
     <div class="filter">
       <div><i class="fa-solid fa-bed"></i></div>
       <p>Rooms</p>
     </div>
+  </a>
+
+  <a href="/listing/category/Iconic City" class="filter-link">
     <div class="filter">
       <div><i class="fa-solid fa-mountain-city"></i></div>
       <p>Iconic City</p>
     </div>
+  </a>
+
+  <a href="/listing/category/Mountains" class="filter-link">
     <div class="filter">
       <div><i class="fa-solid fa-mountain"></i></div>
       <p>Mountains</p>
     </div>
+  </a>
+
+  <a href="/listing/category/Castles" class="filter-link">
     <div class="filter">
       <div><i class="fa-brands fa-fort-awesome"></i></div>
       <p>Castles</p>
     </div>
+  </a>
+
+  <a href="/listing/category/Arctic" class="filter-link">
     <div class="filter">
       <div><i class="fa-solid fa-snowflake"></i></div>
       <p>Arctic</p>
     </div>
+  </a>
+
+  <a href="/listing/category/Camping" class="filter-link">
     <div class="filter">
       <div><i class="fa-solid fa-campground"></i></div>
       <p>Camping</p>
     </div>
+  </a>
+
+  <a href="/listing/category/Farms" class="filter-link">
     <div class="filter">
       <div><i class="fa-solid fa-cow"></i></div>
       <p>Farms</p>
     </div>
+  </a>
+
+  <a href="/listing/category/Domes" class="filter-link">
     <div class="filter">
       <div><i class="fa-solid fa-igloo"></i></div>
       <p>Domes</p>
     </div>
+  </a>
+
+  <a href="/listing/category/Boats" class="filter-link">
     <div class="filter">
       <div><i class="fa-solid fa-sailboat"></i></div>
       <p>Boats</p>
     </div>
-    <div class="tax-toggle">
-      <div class="form-check-reverse form-switch">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="switchCheckDefault"
-        />
-        <label class="form-check-label" for="switchCheckDefault"
-          >Display total after taxes</label
-        >
-      </div>
+  </a>
+
+  <div class="tax-toggle">
+    <div class="form-check-reverse form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="switchCheckDefault"
+      />
+      <label class="form-check-label" for="switchCheckDefault">
+        Display total after taxes
+      </label>
     </div>
   </div>
+
+</div>
 
   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
     <%for(let list of allistings){%>

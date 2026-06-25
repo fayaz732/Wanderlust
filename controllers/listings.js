@@ -105,43 +105,68 @@ module.exports.destroyListing = async (req, res) => {
 module.exports.searchListing = async (req, res) => {
   let { q } = req.query;
 
+  // remove spaces
+  q = q.trim();
+
+  // empty search
+  if (!q) {
+    req.flash("error", "Please enter a search term!");
+    return res.redirect("/listing");
+  }
+
   let filter = {
     $or: [
       {
         country: {
-          $regex: q,
+          $regex: `^${q}$`, // exact match
           $options: "i",
         },
       },
       {
         location: {
-          $regex: q,
+          $regex: `^${q}$`,
           $options: "i",
         },
       },
       {
         title: {
-          $regex: q,
+          $regex: `^${q}$`,
           $options: "i",
         },
       },
     ],
   };
 
-  // Price search
+  // If user enters a number, search exact price
   if (!isNaN(q)) {
     filter = {
-      price: {
-        $lte: Number(q),
-      },
+      $or: [
+        { price: Number(q) }, // exact price
+      ],
     };
   }
 
   let allistings = await Listing.find(filter);
 
-  // If no result found
   if (allistings.length === 0) {
     req.flash("error", "Result Not Found!");
+    return res.redirect("/listing");
+  }
+
+  res.render("listing/index.ejs", { allistings });
+};
+
+module.exports.filterByCategory = async (req, res) => {
+  let { category } = req.params;
+
+  console.log("Category clicked:", category);
+
+  let allistings = await Listing.find({ category });
+
+  console.log("Listings found:", allistings.length);
+
+  if (allistings.length === 0) {
+    req.flash("error", "No listings found in this category!");
     return res.redirect("/listing");
   }
 
